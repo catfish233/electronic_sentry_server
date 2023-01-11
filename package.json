@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/catfish233/electronic_sentry_server/issues"
   },
-  "homepage": "https://github.com/catfish233/electronic_sentry_server#readme"
+  "homepage": "https://github.com/catfish233/electronic_sentry_server#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
