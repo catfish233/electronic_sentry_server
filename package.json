@@ -1,0 +1,19 @@
+{
+  "name": "electronic_sentry_server",
+  "version": "1.0.0",
+  "description": "Using the express application framework and nodejs non-inductive electronic sentinel backend interface.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/catfish233/electronic_sentry_server.git"
+  },
+  "author": "Rong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/catfish233/electronic_sentry_server/issues"
+  },
+  "homepage": "https://github.com/catfish233/electronic_sentry_server#readme"
+}
