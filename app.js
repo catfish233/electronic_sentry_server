@@ -17,7 +17,7 @@ app.use(express.json()); // 添加解析JSON的中间件
 
 // 链接数据库
 mongoose.connect(dbUri, mongooseConfig);
-var db = mongoose.connection;
+let db = mongoose.connection;
 
 // 链接错误处理
 db.on('error', function(error) {
