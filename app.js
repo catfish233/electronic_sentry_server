@@ -1,19 +1,74 @@
 const express = require('express');
 const app = express();
-const port = 3000;
-const routes = require('./routes');
+const mongoose = require('mongoose');
 
+const port = 3000;
+const dbUri = 'mongodb://localhost:27017/electronic_sentry';
+// mongodb链接配置
+const mongooseConfig = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}
+
+// 调用路由集合
+const routes = require('./routes');
+routes(app);
 app.use(express.json()); // 添加解析JSON的中间件
 
-// 404处理
-app.use(function (req, res, next) {
-  res.status(404).send("Sorry can't find that!")
-})
+// 链接数据库
+mongoose.connect(dbUri, mongooseConfig);
+var db = mongoose.connection;
 
-routes(app);
+// 链接错误处理
+db.on('error', function(error) {
+  console.log(error);
+});
 
+// 定义Schema实例
+const Schema = mongoose.Schema;
+const NucleinSchema = new Schema({
+  name: { 
+    type: String,
+    required: true,
+    max: 100,
+
+  },
+  faceInfo: { type: String },
+  nucleinInfo: {
+    nucleinResult: { 
+      type: String,
+      enum: ['检测中', '无数据', '7日', '72小时', '48小时', '24小时',],
+      default: '无数据'
+    },
+    healthCode: { 
+      type: String,
+      enum: ['green', 'red', 'yellow'],
+      default: 'green'
+    },
+    vaccination: { 
+      type: String,
+      enum: ['未接种', '接种一针', '接种两针', '全程接种'],
+      default: '未接种'
+    },
+  },
+  verificationResult: { 
+    type: Boolean,
+    default: false
+  },
+});
+// 链接集合
+const NucleinModel = mongoose.model('Nuclein', NucleinSchema, 'nuclein');
+
+// 查询集合
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  NucleinModel.findOne({verificationResult: true}, (err, response) => {
+    if(err) {
+      res.send(err);
+      return console.log(err);
+    }
+    console.log(response);
+    res.send((response));
+  })
 });
 
 app.post('/', (req, res) => {
@@ -34,12 +89,4 @@ app.delete('/:id', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Express server listening at http://localhost:${port}`);
-});
-
-// 链接数据库
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/firstDB').then(() => {
-  console.log('数据库链接成功！');
-}).catch(err => {
-  console.log(err, '数据库链接失败！');
 });
