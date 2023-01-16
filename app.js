@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 const port = 3000;
 const dbUri = 'mongodb://localhost:27017/electronic_sentry';
@@ -14,6 +15,7 @@ const mongooseConfig = {
 const routes = require('./routes');
 routes(app);
 app.use(express.json()); // 添加解析JSON的中间件
+app.use(helmet());
 
 // 链接数据库
 mongoose.connect(dbUri, mongooseConfig);
