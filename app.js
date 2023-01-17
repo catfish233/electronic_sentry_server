@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const helmet = require('helmet');
+const helmet = require('helmet'); // 使用Helmet避免被常见漏洞侵袭
 
 const port = 3000;
 const dbUri = 'mongodb://localhost:27017/electronic_sentry';
