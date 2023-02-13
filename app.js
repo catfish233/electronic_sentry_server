@@ -8,8 +8,7 @@ let cors = require('cors');
 app.use(cors());
 
 const port = 3050;
-// const dbUri = 'mongodb://localhost:27017/electronic_sentry';
-const dbUri = 'mongodb://120.77.253.207:27017/electronic_sentry';
+const dbUri = 'mongodb://localhost:27017/electronic_sentry';
 // mongodb链接配置
 const mongooseConfig = {
   useNewUrlParser: true,
