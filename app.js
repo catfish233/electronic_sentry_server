@@ -66,7 +66,7 @@ const NucleinModel = mongoose.model('Nuclein', NucleinSchema, 'nuclein');
 
 // 查询集合
 app.get('/', (req, res) => {
-  NucleinModel.findOne({'faceInfo': req.query?.faceInfo}, (err, response) => {
+  NucleinModel.find({'faceInfo': req.query?.faceInfo}, (err, response) => {
     if(err) {
       res.send(err);
       return console.log(err);
