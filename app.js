@@ -20,7 +20,7 @@ const routes = require('./routes');
 routes(app);
 app.use(express.json()); // 添加解析JSON的中间件
 app.use(helmet());
-
+mongoose.set("strictQuery", false);
 // 链接数据库
 mongoose.connect(dbUri, mongooseConfig);
 let db = mongoose.connection;
@@ -37,7 +37,6 @@ const NucleinSchema = new Schema({
     type: String,
     required: true,
     max: 100,
-
   },
   faceInfo: { type: String },
   nucleinInfo: {
@@ -67,7 +66,7 @@ const NucleinModel = mongoose.model('Nuclein', NucleinSchema, 'nuclein');
 
 // 查询集合
 app.get('/', (req, res) => {
-  NucleinModel.findOne({verificationResult: true}, (err, response) => {
+  NucleinModel.findOne({'faceInfo': req.query?.faceInfo}, (err, response) => {
     if(err) {
       res.send(err);
       return console.log(err);
@@ -77,22 +76,24 @@ app.get('/', (req, res) => {
   })
 });
 
-app.post('/', (req, res) => {
-  console.log("收到请求体：", req.body);
-  res.status(201).send(req.body);
-});
+// 暂时不用
+// app.post('/', (req, res) => {
+//   console.log("收到请求体：", req.body);
+//   res.status(201).send(req.body);
+// });
 
-app.put('/:id', (req, res) => {
-  console.log("收到请求参数， id为：", req.params?.id);
-  console.log("收到请求体：", req.body);
-  res.send("添加成功！");
-});
+// app.put('/:id', (req, res) => {
+//   console.log("收到请求参数， id为：", req.params?.id);
+//   console.log("收到请求体：", req.body);
+//   res.send("添加成功！");
+// });
 
-app.delete('/:id', (req, res) => {
-  console.log("收到请求参数， id为：", req.params?.id);
-  res.status(204).send(req.params);
-});
+// app.delete('/:id', (req, res) => {
+//   console.log("收到请求参数， id为：", req.params?.id);
+//   res.status(204).send(req.params);
+// });
 
+// 监听端口
 app.listen(port, () => {
   console.log(`Express server listening at http://localhost:${port}`);
 });
